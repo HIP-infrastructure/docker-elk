@@ -1,0 +1,26 @@
+{
+    "cluster": [],
+    "indices": [
+        {
+            "names": [
+                "bids-*"
+            ],
+            "privileges": [
+                "create",
+                "delete",
+                "index",
+                "write",
+                "read"
+            ]
+        },
+        {
+            "names": [
+                "*"
+            ],
+            "privileges": [
+                "create_index",
+                "delete_index"
+            ]
+        }
+    ]
+}
