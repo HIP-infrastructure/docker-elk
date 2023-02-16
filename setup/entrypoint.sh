@@ -11,6 +11,8 @@ source "${BASH_SOURCE[0]%/*}"/helpers.sh
 
 declare -A users_passwords
 users_passwords=(
+	[bids_ro]="${ELASTIC_PASSWORD_RO:-}"
+	[bids_rw]="${ELASTIC_PASSWORD_RW:-}"
 	[logstash_internal]="${LOGSTASH_INTERNAL_PASSWORD:-}"
 	[kibana_system]="${KIBANA_SYSTEM_PASSWORD:-}"
 	[metricbeat_internal]="${METRICBEAT_INTERNAL_PASSWORD:-}"
@@ -22,6 +24,8 @@ users_passwords=(
 
 declare -A users_roles
 users_roles=(
+	[bids_ro]='bids_reader'
+	[bids_rw]='bids_writer'
 	[logstash_internal]='logstash_writer'
 	[metricbeat_internal]='metricbeat_writer'
 	[filebeat_internal]='filebeat_writer'
@@ -34,6 +38,8 @@ users_roles=(
 
 declare -A roles_files
 roles_files=(
+	[bids_reader]='bids_reader.json'
+	[bids_writer]='bids_writer.json'
 	[logstash_writer]='logstash_writer.json'
 	[metricbeat_writer]='metricbeat_writer.json'
 	[filebeat_writer]='filebeat_writer.json'
@@ -124,6 +130,7 @@ for user in "${!users_passwords[@]}"; do
 			suberr '  No role defined, skipping creation'
 			continue
 		fi
+		
 
 		sublog 'User does not exist, creating'
 		create_user "$user" "${users_passwords[$user]}" "${users_roles[$user]}"
