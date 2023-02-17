@@ -45,15 +45,60 @@ if ((was_retried)); then
 	echo >&2
 fi
 
-sleep 5
-curl -X POST "https://elasticsearch:9200/logs-generic-default/_refresh" -u elastic:testpasswd \
-	-s -w '\n' --resolve "elasticsearch:9200:${ip_es}" --cacert "$es_ca_cert"
+# It might take a few seconds before the indices and alias are created, so we
+# need to be resilient here.
+was_retried=0
+declare -a refresh_args=( '-X' 'POST' '-s' '-w' '%{http_code}' '-u' 'elastic:testpasswd'
+	'https://elasticsearch:9200/logs-generic-default/_refresh'
+	'--resolve' "elasticsearch:9200:${ip_es}" '--cacert' "$es_ca_cert"
+)
+
+# retry for max 10s (10*1s)
+for _ in $(seq 1 10); do
+	output="$(curl "${refresh_args[@]}")"
+	if [ "${output: -3}" -eq 200 ]; then
+		break
+	fi
+
+	was_retried=1
+	echo -n 'x' >&2
+	sleep 1
+done
+if ((was_retried)); then
+	# flush stderr, important in non-interactive environments (CI)
+	echo >&2
+fi
 
 log 'Searching message in Elasticsearch'
-response="$(curl "https://elasticsearch:9200/logs-generic-default/_search?q=message:dockerelk&pretty" -s --resolve "elasticsearch:9200:${ip_es}" --cacert "$es_ca_cert" -u elastic:testpasswd)"
-echo "$response"
+
+# We don't know how much time it will take Logstash to create our document, so
+# we need to be resilient here too.
+was_retried=0
+declare -a search_args=( '-s' '-u' 'elastic:testpasswd'
+	'https://elasticsearch:9200/logs-generic-default/_search?q=message:dockerelk&pretty'
+	'--resolve' "elasticsearch:9200:${ip_es}" '--cacert' "$es_ca_cert"
+)
 declare -i count
-count="$(jq -rn --argjson data "${response}" '$data.hits.total.value')"
+declare response
+
+# retry for max 10s (10*1s)
+for _ in $(seq 1 10); do
+	response="$(curl "${search_args[@]}")"
+	count="$(jq -rn --argjson data "${response}" '$data.hits.total.value')"
+	if (( count )); then
+		break
+	fi
+
+	was_retried=1
+	echo -n 'x' >&2
+	sleep 1
+done
+if ((was_retried)); then
+	# flush stderr, important in non-interactive environments (CI)
+	echo >&2
+fi
+
+echo "$response"
 if (( count != 1 )); then
 	echo "Expected 1 document, got ${count}"
 	exit 1
