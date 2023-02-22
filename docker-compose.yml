@@ -46,7 +46,10 @@ services:
       # (!) CA certificate. Generate using the 'tls' service.
       - ./tls/certs/ca/ca.crt:/ca.crt:ro,z
     environment:
+      ELK_HOSTNAME: ${ELK_HOSTNAME:-}
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      ELASTIC_PASSWORD_RO: ${ELASTIC_PASSWORD_RO:-}
+      ELASTIC_PASSWORD_RW: ${ELASTIC_PASSWORD_RW:-}
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
       KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
       METRICBEAT_INTERNAL_PASSWORD: ${METRICBEAT_INTERNAL_PASSWORD:-}
@@ -126,6 +129,7 @@ services:
     ports:
       - 5601:5601
     environment:
+      ELK_HOSTNAME: ${ELK_HOSTNAME:-}
       KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
     networks:
       - elk
