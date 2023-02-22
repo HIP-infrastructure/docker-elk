@@ -26,10 +26,12 @@ elasticsearch.ssl.certificateAuthorities: [ config/ca.crt ]
 
 ## Communications between web browsers and Kibana
 ## see https://www.elastic.co/guide/en/kibana/current/configuring-tls.html#configuring-tls-browser-kib
-#
-server.ssl.enabled: false
+# Please edit server.publicBaseUrl and xpack.reporting.kibanaServer.hostname
+server.ssl.enabled: true
 server.ssl.certificate: config/kibana.crt
 server.ssl.key: config/kibana.key
+server.publicBaseUrl: https://example.changeme.url:5601
+xpack.reporting.kibanaServer.hostname: example.changeme.url
 
 ## Fleet
 ## https://www.elastic.co/guide/en/kibana/current/fleet-settings-kb.html
@@ -42,7 +44,7 @@ xpack.fleet.outputs:
     type: elasticsearch
     hosts: [ https://elasticsearch:9200 ]
     # Set to output of 'docker-compose up tls'. Example:
-    #ca_trusted_fingerprint: 846637d1bb82209640d31b79869a370c8e47c2dc15c7eafd4f3d615e51e3d503
+    #ca_trusted_fingerprint: de3e748cf6a75a613357b903930701fe8ace91d040ed1aa3fc76a36faf00bcf9 
     is_default: true
     is_default_monitoring: true
 
