@@ -30,8 +30,8 @@ elasticsearch.ssl.certificateAuthorities: [ config/ca.crt ]
 server.ssl.enabled: true
 server.ssl.certificate: config/kibana.crt
 server.ssl.key: config/kibana.key
-server.publicBaseUrl: https://example.changeme.url:5601
-xpack.reporting.kibanaServer.hostname: example.changeme.url
+server.publicBaseUrl: https://${ELK_HOSTNAME}:5601
+xpack.reporting.kibanaServer.hostname: ${ELK_HOSTNAME}
 
 ## Fleet
 ## https://www.elastic.co/guide/en/kibana/current/fleet-settings-kb.html
@@ -43,8 +43,6 @@ xpack.fleet.outputs:
     name: default
     type: elasticsearch
     hosts: [ https://elasticsearch:9200 ]
-    # Set to output of 'docker-compose up tls'. Example:
-    #ca_trusted_fingerprint: de3e748cf6a75a613357b903930701fe8ace91d040ed1aa3fc76a36faf00bcf9 
     is_default: true
     is_default_monitoring: true
 
