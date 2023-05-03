@@ -8,7 +8,7 @@ network.host: 0.0.0.0
 ## X-Pack settings
 ## see https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html
 #
-xpack.license.self_generated.type: trial
+xpack.license.self_generated.type: basic
 xpack.security.enabled: true
 
 ##
@@ -17,18 +17,29 @@ xpack.security.enabled: true
 ##
 
 ## Communications between nodes in a cluster
+## Enable encryption and mutual authentication between cluster nodes
 ## see https://www.elastic.co/guide/en/elasticsearch/reference/current/configuring-tls.html#tls-transport
 #
-xpack.security.transport.ssl.enabled: true
-xpack.security.transport.ssl.verification_mode: certificate
-xpack.security.transport.ssl.certificate_authorities: [ ca.crt ]
-xpack.security.transport.ssl.certificate: elasticsearch.crt
-xpack.security.transport.ssl.key: elasticsearch.key
+xpack.security.transport.ssl:
+  enabled: true
+  verification_mode: certificate
+  certificate_authorities: [ ca.crt ]
+  certificate: elasticsearch.crt
+  key: elasticsearch.key
+
 
 ## HTTP client communications
+## Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents
 ## see https://www.elastic.co/guide/en/elasticsearch/reference/current/configuring-tls.html#tls-http
 #
-xpack.security.http.ssl.enabled: true
-xpack.security.http.ssl.certificate_authorities: [ ca.crt ]
-xpack.security.http.ssl.certificate: elasticsearch.crt
-xpack.security.http.ssl.key: elasticsearch.key
+xpack.security.http.ssl:
+  enabled: true
+  verification_mode: certificate
+  certificate_authorities: [ ca.crt ]
+  certificate: elasticsearch.crt
+  key: elasticsearch.key
+
+
+## Add explicitly native authentication realm as first method to be used in the chain
+xpack.security.authc.realms.native.native1:
+  order: 0
