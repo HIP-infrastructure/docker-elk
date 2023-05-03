@@ -46,7 +46,7 @@ services:
       # (!) CA certificate. Generate using the 'tls' service.
       - ./tls/certs/ca/ca.crt:/ca.crt:ro,z
     environment:
-      ELK_HOSTNAME: ${ELK_HOSTNAME:-}
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST:-}
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
       ELASTIC_PASSWORD_RO: ${ELASTIC_PASSWORD_RO:-}
       ELASTIC_PASSWORD_RW: ${ELASTIC_PASSWORD_RW:-}
