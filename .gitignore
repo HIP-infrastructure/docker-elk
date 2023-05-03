@@ -1,1 +1,10 @@
+# Ignore .env
 .env
+
+# Ignore tls/instance.yml
+**/instances.yml
+
+# Ignore certificate-related files
+*.crt
+*.key
+*.zip
