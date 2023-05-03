@@ -3,7 +3,7 @@
     "indices": [
         {
             "names": [
-                "bids-*"
+                "bids*"
             ],
             "privileges": [
                 "create",
