@@ -6,9 +6,10 @@
     $ git clone https://github.com/HIP-infrastructure/docker-elk.git
     ```
 
-2. Checkout the `tls-8-6` branch:
+2. Fetch and checkout the `tls-8-6` branch:
 
     ```bash
+    $ git fetch
     $ git checkout –track origin/tls-8-6
     ```
 
