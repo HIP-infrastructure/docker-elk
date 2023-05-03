@@ -4,15 +4,10 @@
 #
 server.name: kibana
 server.host: 0.0.0.0
-elasticsearch.hosts: [ https://elasticsearch:9200 ]
 
+# Monitoring
 monitoring.ui.container.elasticsearch.enabled: true
 monitoring.ui.container.logstash.enabled: true
-
-## X-Pack security credentials
-#
-elasticsearch.username: kibana_system
-elasticsearch.password: ${KIBANA_SYSTEM_PASSWORD}
 
 ##
 ## TLS configuration
@@ -22,11 +17,14 @@ elasticsearch.password: ${KIBANA_SYSTEM_PASSWORD}
 ## Communications between Kibana and Elasticsearch
 ## see https://www.elastic.co/guide/en/kibana/current/configuring-tls.html#configuring-tls-kib-es
 #
+elasticsearch.hosts: [ https://elasticsearch:9200 ]
+elasticsearch.username: kibana_system
+elasticsearch.password: ${KIBANA_SYSTEM_PASSWORD}
 elasticsearch.ssl.certificateAuthorities: [ config/ca.crt ]
 
 ## Communications between web browsers and Kibana
 ## see https://www.elastic.co/guide/en/kibana/current/configuring-tls.html#configuring-tls-browser-kib
-# Please edit server.publicBaseUrl and xpack.reporting.kibanaServer.hostname
+#
 server.ssl.enabled: true
 server.ssl.certificate: config/kibana.crt
 server.ssl.key: config/kibana.key
@@ -43,6 +41,8 @@ xpack.fleet.outputs:
     name: default
     type: elasticsearch
     hosts: [ https://elasticsearch:9200 ]
+    # Set to output of 'docker-compose up tls'. Example:
+    #ca_trusted_fingerprint: 846637d1bb82209640d31b79869a370c8e47c2dc15c7eafd4f3d615e51e3d503
     is_default: true
     is_default_monitoring: true
 
