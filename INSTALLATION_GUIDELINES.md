@@ -1,11 +1,5 @@
 # Installation guidelines
 
-## Dependencies
-
-This project depends on:
-
-
-
 ## First ELK Stack Deployment
 
 If you are starting from scratch, please make sure the following dependencies are installed:
