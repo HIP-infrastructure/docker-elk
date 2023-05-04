@@ -25,7 +25,7 @@ $ sudo apt-get update
 # Install Docker tools
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # Install make and certbot
-$ sudo apt-get make certbot
+$ sudo apt-get install make certbot
 ```
 
 Then, please follow these steps:
