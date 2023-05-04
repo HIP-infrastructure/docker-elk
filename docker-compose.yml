@@ -20,6 +20,9 @@ services:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     user: root  # ensures we can write to the local tls/ directory.
     init: true
+    environment:
+      ELK_HOSTNAME: ${ELK_HOSTNAME:-}
+      ELK_IP: ${ELK_IP:-}
     volumes:
       - ./tls/entrypoint.sh:/entrypoint.sh:ro,Z
       - ./tls/instances.yml:/usr/share/elasticsearch/tls/instances.yml:ro,Z
@@ -46,7 +49,7 @@ services:
       # (!) CA certificate. Generate using the 'tls' service.
       - ./tls/certs/ca/ca.crt:/ca.crt:ro,z
     environment:
-      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST:-}
+      ELASTICSEARCH_HOST: ${ELK_HOSTNAME:-}
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
       ELASTIC_PASSWORD_RO: ${ELASTIC_PASSWORD_RO:-}
       ELASTIC_PASSWORD_RW: ${ELASTIC_PASSWORD_RW:-}
