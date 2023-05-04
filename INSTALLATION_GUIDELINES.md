@@ -1,6 +1,8 @@
-# Installation guidelines
+# ELK Stack of the Human Intracranial EEG Platform
 
-## First ELK Stack Deployment
+## Installation Guidelines
+
+### First ELK Stack Deployment
 
 If you are starting from scratch, please make sure the following dependencies are installed:
 
@@ -68,7 +70,7 @@ Then, please follow these steps:
       $ docker-compose ps
       ```
 
-## ELK Stack Redeployment
+### ELK Stack Redeployment
 
 As soon as the ELK stack has been deployed a first, the typical command to redeploy it is:
 
@@ -86,7 +88,7 @@ Alternatively, if you wish to reset your elasticsearch instance, you could use:
 
   This command will proceed to the same workflow provided by `make redeploy` command, except that it will remove the elastic volume. This acts as a reset, which loose all existing indices and indexed datasets. In addition, setup with creation of users / roles is run again. 
 
-## Wish to launch `certbot`?
+### Wish to launch `certbot`?
 
 This can be achieved by the following command:
 
@@ -94,7 +96,7 @@ This can be achieved by the following command:
   $ make certbot
   ```
 
-## Want to see the list of available `make` commands?
+### Want to see the list of available `make` commands?
 
   **Command:**
   ```bash
