@@ -10,6 +10,7 @@ DC=$(DOCKER_COMPOSE) --env-file ./.env -f docker-compose.yml
 
 CERTS_DIR=./tls/certs
 CERTBOT_DIR=/etc/letsencrypt/live/$(ELK_HOSTNAME)
+CERTBOT_ARCHIVE=/etc/letsencrypt/archive/$(ELK_HOSTNAME)
 
 #stack-down-except-volume: @ Make the stack down (except volume)
 stack-down-except-volume:
@@ -35,6 +36,7 @@ cert: stack-down-except-volume clean-cert-all generate_tls_instances
 certbot: stack-down-except-volume
 	@echo "Generare initial certificates with docker-compose up tls"
 	sudo certbot certonly
+        sudo chown -R 1000:1000 $(CERTBOT_ARCHIVE)
 
 #stack-up: @ Deploy ELK stack
 stack-up:
